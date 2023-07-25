@@ -67,5 +67,22 @@ pipeline{
             }
         }
      }
+
+     stage('Pushing the changed deployment file to Git'){
+        steps{
+            script{
+                 sh """
+                   git config --global user.name "Dhiman23"
+                   git config --global user.email "sajaldhiman68@gamil.com"
+                   git add deployment.yml
+                   git commit -m "updated the deployment file"
+                 """
+                  withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
+                       sh "git push https://github.com/Dhiman23/Git-Ops-Project.git main"
+                       }
+               
+            }
+        }
+     }
     }
 }
