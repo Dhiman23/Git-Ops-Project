@@ -55,34 +55,12 @@ pipeline{
                 }
             }
         }
-
-     stage('updating kubernetes manifest file'){
-        steps{
-            script{
-                sh """
-                 cat deployment.yml
-                 sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yml
-                 cat deployment.yml
-                """
+        stage('triggering CD pipeline'){
+            steps{
+                script{
+                    sh "curl -v -k -user sajal:1126525ad68690760af49bb3ad6a21dac2 -X POST -H 'content-type: application/x-www-form-urlencoded' -data 'IMAGE_TAG=${IMAGE_TAG}' 'http://44.217.26.176:8080/job/gitops-argocd-CD/buildWithParameters?token=gitops-config'"
+                }
             }
         }
-     }
-
-     stage('Pushing the changed deployment file to Git'){
-        steps{
-            script{
-                 sh """
-                   git config --global user.name "Dhiman23"
-                   git config --global user.email "sajaldhiman68@gamil.com"
-                   git add deployment.yml
-                   git commit -m "updated the deployment file"
-                 """
-                  withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
-                       sh "git push https://github.com/Dhiman23/Git-Ops-Project.git main"
-                       }
-               
-            }
-        }
-     }
     }
 }
