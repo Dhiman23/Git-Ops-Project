@@ -13,7 +13,7 @@ spec:
         app: flask-app
     spec:
       containers:
-      - name: flask-app-container
+      - name: flask-app
         image: sajaldhimanitc1999/git-ops-app:28
         ports:
         - containerPort: 5000
