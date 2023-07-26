@@ -43,7 +43,7 @@ pipeline{
                     docker.withRegistry('',REGISTRY_CREDS){
                         docker_image.push("$BUILD_NUMBER")
                         docker_image.push('latest')
-                    }
+                    } 
                 }
             }
         }
@@ -58,7 +58,7 @@ pipeline{
         stage('triggering CD pipeline'){
             steps{
                 script{
-                    sh "curl -v -k -user sajal:1126525ad68690760af49bb3ad6a21dac2 -X POST -H 'content-type: application/x-www-form-urlencoded' -data 'IMAGE_TAG=${IMAGE_TAG}' 'http://44.217.26.176:8080/job/gitops-argocd-CD/buildWithParameters?token=gitops-config'"
+                    sh "curl -v -k -user sajal:1126525ad68690760af49bb3ad6a21dac2 -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' -data 'IMAGE_TAG=${IMAGE_TAG}' 'http://44.217.26.176:8080/job/gitops-argocd-CD/buildWithParameters?token=gitops-config'"
                 }
             }
         }
